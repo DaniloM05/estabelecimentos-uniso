@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Blockchain{% endblock %}
+
+{% block content %}
+<h2>Blockchain de Estabelecimentos</h2>
+
+{% if blockchain|length == 0 %}
+  <p>Nenhum bloco registrado ainda.</p>
+{% else %}
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    {% for bloco in blockchain %}
+      <div style="border: 1px solid #ddd; padding: 1rem; border-radius: 8px; background: #f9f9f9;">
+        <p><strong>Bloco #{{ bloco.index }}</strong></p>
+        <p><strong>Timestamp:</strong> {{ bloco.timestamp }}</p>
+        <p><strong>Dados:</strong> {{ bloco.dados }}</p>
+        <p><strong>Hash Anterior:</strong> {{ bloco.anterior_hash }}</p>
+        <p><strong>Hash:</strong> {{ bloco.hash }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% endblock %}

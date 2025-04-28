@@ -28,6 +28,9 @@ Este é um projeto desenvolvido com **Flask** para gerenciamento de estabelecime
 
 ```bash
 python -m venv venv
+ou 
+python3 -m venv venv
+
 source venv/bin/activate  # no Windows, use venv\Scripts\activate
 ```
 

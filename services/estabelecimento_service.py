@@ -1,4 +1,5 @@
 from models.estabelecimento_model import Estabelecimento
+from services import blockchain_service
 from pymongo import MongoClient
 from geopy.distance import geodesic
 import os
@@ -7,7 +8,14 @@ from dotenv import load_dotenv
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
-client = MongoClient(MONGO_URI)
+client = MongoClient(MONGO_URI, tlsAllowInvalidCertificates=True)
+
+try:
+    client.admin.command('ping')
+    print("✅ Conexão com o MongoDB estabelecida com sucesso!")
+except Exception as e:
+    print(f"❌ Erro ao conectar ao MongoDB: {e}")
+
 db = client["estabelecimentosDB"]
 collection = db["estabelecimentos"]
 
@@ -19,6 +27,7 @@ def cadastrar_estabelecimento(estabelecimento):
     if buscar_por_nome(estabelecimento.nome):
         return False, "Já existe um estabelecimento com esse nome."
 
+    # Insere no MongoDB
     collection.insert_one({
         "nome": estabelecimento.nome,
         "location": {
@@ -26,8 +35,15 @@ def cadastrar_estabelecimento(estabelecimento):
             "coordinates": [estabelecimento.longitude, estabelecimento.latitude]
         }
     })
-    return True, "Estabelecimento cadastrado com sucesso!"
 
+    # Agora adiciona no blockchain também
+    blockchain_service.adicionar_bloco({
+        "nome": estabelecimento.nome,
+        "latitude": estabelecimento.latitude,
+        "longitude": estabelecimento.longitude
+    })
+
+    return True, "Estabelecimento cadastrado com sucesso!"
 
 def listar_estabelecimentos():
     return list(collection.find({}, {"_id": 0}))

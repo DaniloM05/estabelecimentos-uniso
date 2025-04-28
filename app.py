@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect, url_for, flash
 from models.estabelecimento_model import Estabelecimento
 from services import estabelecimento_service as service
+from services import blockchain_service
 
 app = Flask(__name__)
 app.secret_key = 'segredo_seguro_para_flash'
@@ -92,6 +93,11 @@ def excluir_estabelecimento(nome):
 def mapa():
     estabelecimentos = service.listar_estabelecimentos()
     return render_template('mapa.html', estabelecimentos=estabelecimentos)
+
+@app.route('/blockchain')
+def ver_blockchain():
+    cadeia = blockchain_service.obter_blockchain()
+    return render_template('blockchain.html', blockchain=cadeia)
 
 if __name__ == '__main__':
     app.run(debug=True)
