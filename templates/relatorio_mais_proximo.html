@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% set mensagem = mensagem if mensagem is defined else None %}
+{% set erro = erro if erro is defined else None %}
+{% block title %}Mais Próximo{% endblock %}
+{% block content %}
+<h2>Buscar estabelecimento mais próximo de um ponto</h2>
+<form method="post">
+  <input type="number" step="any" name="latitude" placeholder="Latitude" required><br>
+  <input type="number" step="any" name="longitude" placeholder="Longitude" required><br>
+  <button type="submit">Buscar</button>
+</form>
+{% if resultado %}
+  <p>Mais próximo: <strong>{{ resultado.mais_proximo }}</strong></p>
+  <p>Distância: {{ resultado.distancia_km }} km</p>
+{% endif %}
+{% endblock %}

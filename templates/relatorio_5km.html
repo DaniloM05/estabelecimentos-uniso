@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Relatório 5km{% endblock %}
+{% block content %}
+  <h2>Estabelecimentos próximos (5km)</h2>
+  <form method="POST">
+    <input type="text" name="nome" placeholder="Nome do estabelecimento" required>
+    <button type="submit">Buscar</button>
+  </form>
+
+  {% if resultado %}
+    <h3>Próximos de {{ nome }}:</h3>
+    <ul>
+      {% for item in resultado %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

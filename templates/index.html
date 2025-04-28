@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% set mensagem = mensagem if mensagem is defined else None %}
+{% set erro = erro if erro is defined else None %}
+{% block title %}Início{% endblock %}
+{% block content %}
+<h1>Bem-vindo ao sistema de estabelecimentos</h1>
+<ul>
+  <li><a href="/cadastrar-form">Cadastrar estabelecimento</a></li>
+  <li><a href="/relatorio-5km-form">Relatório de estabelecimentos a 5km</a></li>
+  <li><a href="/relatorio-mais-proximo-form">Estabelecimento mais próximo</a></li>
+  <li><a href="/relatorio-10km">Relatório de proximidade 10km</a></li>
+  <li><a href="/listar-todos">Listar todos os estabelecimentos</a></li>
+  <li><a href="/mapa">Visualizar no Mapa</a></li>
+</ul>
+{% endblock %}

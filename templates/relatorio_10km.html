@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% set mensagem = mensagem if mensagem is defined else None %}
+{% set erro = erro if erro is defined else None %}
+{% block title %}Relatório 10km{% endblock %}
+{% block content %}
+<h2>Relatório de Estabelecimentos (10km)</h2>
+<ul>
+  {% for item in resultado %}
+    <li>{{ item.estabelecimento }} - {{ item.quantidade_proximos_10km }} próximos</li>
+  {% endfor %}
+</ul>
+{% endblock %}

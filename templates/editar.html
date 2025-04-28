@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Editar Estabelecimento{% endblock %}
+{% block content %}
+<h2>Editar Estabelecimento</h2>
+
+<form method="POST">
+  <label for="nome">Nome:</label><br>
+  <input type="text" id="nome" name="nome" value="{{ estabelecimento.nome }}" required><br><br>
+
+  <label for="latitude">Latitude:</label><br>
+  <input type="text" id="latitude" name="latitude" value="{{ estabelecimento.location.coordinates[1] }}" required><br><br>
+
+  <label for="longitude">Longitude:</label><br>
+  <input type="text" id="longitude" name="longitude" value="{{ estabelecimento.location.coordinates[0] }}" required><br><br>
+
+  <button type="submit">Salvar Alterações</button>
+</form>
+
+<p><a href="/listar-todos">Voltar à listagem</a></p>
+{% endblock %}

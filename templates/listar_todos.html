@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Listar Estabelecimentos{% endblock %}
+{% block content %}
+<h2>Todos os Estabelecimentos</h2>
+
+{% if estabelecimentos|length == 0 %}
+  <p>Nenhum estabelecimento cadastrado.</p>
+{% else %}
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for est in estabelecimentos %}
+      <tr>
+        <td>{{ est.nome }}</td>
+        <td>{{ est.location.coordinates[1] }}</td>
+        <td>{{ est.location.coordinates[0] }}</td>
+        <td>
+          <a href="/editar/{{ est.nome }}">Editar</a>
+          &nbsp;|&nbsp;
+          <a href="javascript:void(0);" onclick="confirmarExclusao('{{ est.nome }}')">Excluir</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endif %}
+{% endblock %}
+
+<script>
+  function confirmarExclusao(nome) {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: `Tem certeza que deseja excluir ${nome}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = `/excluir/${nome}`;
+      }
+    });
+  }
+</script>

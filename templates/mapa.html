@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% set mensagem = mensagem if mensagem is defined else None %}
+{% set erro = erro if erro is defined else None %}
+{% block title %}Mapa dos Estabelecimentos{% endblock %}
+{% block content %}
+<h2>Visualização no Mapa</h2>
+<div id="map" style="height: 500px; width: 100%; border-radius: 8px;"></div>
+
+<!-- Leaflet CSS e JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+  .leaflet-container {
+    height: 500px;
+    width: 100%;
+  }
+  .leaflet-container img {
+    image-rendering: auto;
+  }
+</style>
+
+<script>
+  const mapa = L.map('map').setView([-23.5505, -46.6333], 11); 
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(mapa);
+
+  const meuIcone = L.icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+    iconSize: [32, 40],
+    iconAnchor: [16, 40],
+    popupAnchor: [0, -40]
+  });
+
+  let dadosEstabelecimentos = JSON.parse('{{ estabelecimentos | tojson | safe }}');
+
+  dadosEstabelecimentos.forEach(est => {
+    const [lon, lat] = est.location.coordinates;
+    L.marker([lat, lon], { icon: meuIcone })
+      .addTo(mapa)
+      .bindPopup(`<strong>${est.nome}</strong><br>Lat: ${lat}<br>Lon: ${lon}`);
+  });
+</script>
+{% endblock %}
